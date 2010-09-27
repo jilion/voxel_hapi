@@ -22,6 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'rescue_me',   '~> 0.1.0'
   
   s.files        = Dir['lib/**/*.rb']
-  s.require_path = 'lib'
   s.has_rdoc     = false
 end
