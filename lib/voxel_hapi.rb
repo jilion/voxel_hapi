@@ -51,7 +51,7 @@ class VoxelHAPI
       if @hapi_authkey.empty?
         @hapi_authkey = voxel_hapi_authkeys_read
       else
-        options[:hapi_authkey].each_key do |key|
+        options[:hapi_authkey].dup.each_key do |key|
           @hapi_authkey[key.to_s] = options[:hapi_authkey][key]
         end
       end
@@ -155,31 +155,29 @@ private
   def request_method( method_name, options = {}, use_auth = false, xml_options = {}, output_options = {} )
     output_options.reverse_merge! :format => :ruby
     
-    rescue_and_retry(5) do
-      begin
-        request = VoxelHAPIRequest.new :hapi_username => @hapi_username,
-        :hapi_password => @hapi_password, :method => method_name,
-        :param => options, :debug => @debug, :auth_version => @hapi_version,
-        :hapi_authkey => @hapi_authkey
-        
-        if use_auth
-          response = @connection.call_method(request, {
-          :hapi_username => @hapi_username, :hapi_password => @hapi_password })
-        else
-          response = @connection.call_method(request)
-        end
-        
-        raise Backend, response.to_h['err']['msg'] if response.to_h['stat'] == "fail"
-        
-        case output_options[:format]
-        when :ruby
-          response.to_h(xml_options)
-        when :xml
-          response.to_xml
-        end
-      rescue VoxelHAPIConnection::Error => ex
-        raise ex, ex.message
+    begin
+      request = VoxelHAPIRequest.new :hapi_username => @hapi_username,
+      :hapi_password => @hapi_password, :method => method_name,
+      :param => options, :debug => @debug, :auth_version => @hapi_version,
+      :hapi_authkey => @hapi_authkey
+      
+      if use_auth
+        response = @connection.call_method(request, {
+        :hapi_username => @hapi_username, :hapi_password => @hapi_password })
+      else
+        response = @connection.call_method(request)
       end
+      
+      raise Backend, response.to_h['err']['msg'] if response.to_h['stat'] == "fail"
+      
+      case output_options[:format]
+      when :ruby
+        response.to_h(xml_options)
+      when :xml
+        response.to_xml
+      end
+    rescue VoxelHAPIConnection::Error => ex
+      raise ex, ex.message
     end
   end
   
