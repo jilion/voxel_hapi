@@ -23,5 +23,4 @@ Gem::Specification.new do |s|
   
   s.files        = Dir['lib/**/*.rb']
   s.require_path = 'lib'
-  s.has_rdoc     = false
 end
