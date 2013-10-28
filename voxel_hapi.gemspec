@@ -14,9 +14,9 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "voxel_hapi"
 
-  s.add_dependency 'xml-simple',  '~> 1.0.12'
-  s.add_dependency 'libxml-ruby', '~> 2.2.0'
-  s.add_dependency 'rescue_me',   '~> 0.1.0'
+  s.add_dependency 'xml-simple',  '~> 1.1'
+  s.add_dependency 'libxml-ruby', '~> 2.7'
+  s.add_dependency 'rescue_me',   '~> 0.1'
 
   s.add_development_dependency 'bundler', '>= 1.0.0'
   s.add_development_dependency 'rspec',   '>= 2.0.0'
